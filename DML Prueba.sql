@@ -8,9 +8,12 @@ select C.campeonato, STRING_AGG(P.pais, ', ') organizadores, G.grupo, PG.pais
 	where C.campeonato = 'FIFA World Cup 2022'
 	group by C.campeonato, G.grupo, PG.pais
 	order by 1, 2, 3
-	
+
 select C.ciudad, E.estadio, E.capacidad
 	from ciudad C
 		JOIN pais P ON C.idpais = P.id
 		JOIN estadio E ON E.idciudad = C.id
 		WHERE P.pais = 'Catar'
+
+select *
+	from vEncuentros

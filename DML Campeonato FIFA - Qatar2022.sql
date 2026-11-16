@@ -180,12 +180,12 @@ INSERT INTO estadio
 		JOIN ciudad C ON C.ciudad = datos.ciudad
 	ON CONFLICT(estadio)
 		DO UPDATE
-			SET capacidad = excluded.capacidad	
+			SET capacidad = excluded.capacidad;	
 
 --8. Agregar los Encuentros de la Fase de Grupos
 INSERT INTO encuentro
 	(idpais1, idpais2, fecha, idestadio, idfase, idcampeonato, goles1, goles2)
-	SELECT P1.id, P2.id, datos.fecha, , F.id, C.id, datos.goles1, datos.goles2
+	SELECT P1.id, P2.id, datos.fecha::DATE, E.id, F.id, C.id, datos.goles1, datos.goles2
 		FROM(
 			VALUES
 				-- GRUPO A
@@ -252,15 +252,15 @@ INSERT INTO encuentro
 				('Ghana', 'Uruguay', '2022-12-02', 'Al Janoub Stadium', 0, 2),
 				('Corea del Sur', 'Portugal', '2022-12-02', 'Education City Stadium', 2, 1)
 
-		) datos(pais1, pais2, fecha, goles1, goles2, estadio)
+		) datos(pais1, pais2, fecha, estadio, goles1, goles2)
 		JOIN pais P1 ON P1.pais = datos.pais1
-		JOIN pais P2 ON p2.pais = datos.pais2
+		JOIN pais P2 ON P2.pais = datos.pais2
 		JOIN campeonato C on C.campeonato = 'FIFA World Cup 2022'
-		JOIN fase F on f.fase = 'Grupos'
+		JOIN fase F on F.fase = 'Grupos'
 		JOIN estadio E on E.estadio = datos.estadio
 	ON CONFLICT(idpais1, idpais2, idfase, idcampeonato)
-	DO UPDATE
-		SET fecha = excluded.fecha,
-			idestadio = excluded.idestadio,
-			goles1 = excluded.goles1,
-			goles2 = excluded.goles2
+		DO UPDATE
+			SET fecha = excluded.fecha,
+				idestadio = excluded.idestadio,
+				goles1 = excluded.goles1,
+				goles2 = excluded.goles2;
